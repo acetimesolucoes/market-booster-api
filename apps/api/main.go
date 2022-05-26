@@ -66,11 +66,14 @@ func deleteEnterprise(c *gin.Context) {
 func main() {
 	router := gin.Default()
 
-	// Enterprises
-	router.GET("/enterprises", getEnterprises)
-	router.POST("/enterprises", createEnterprise)
-	router.PUT("/enterprises/:id", updateEnterprise)
-	router.DELETE("/enterprises/:id", deleteEnterprise)
+	v1 := router.Group("/v1")
+	{
+		// Enterprises
+		v1.GET("/enterprises", getEnterprises)
+		v1.POST("/enterprises", createEnterprise)
+		v1.PUT("/enterprises/:id", updateEnterprise)
+		v1.DELETE("/enterprises/:id", deleteEnterprise)
+	}
 
 	router.Run("localhost:5000")
 }

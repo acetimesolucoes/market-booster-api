@@ -28,12 +28,16 @@ Below are our core plugins:
   - `npm install --save-dev @nrwl/express`
 - [Node](https://nodejs.org)
   - `npm install --save-dev @nrwl/node`
+- [Go]()
+  - `npm install -D @nx-go/nx-go`
 
 There are also many [community plugins](https://nx.dev/community) you could add.
 
 ## Generate an application
 
 Run `nx g @nrwl/react:app my-app` to generate an application.
+
+Run `nx g @nx-go/nx-go:app api` to generate an Golang application.
 
 > You can use any of the plugins above to generate applications as well.
 

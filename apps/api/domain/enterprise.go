@@ -3,8 +3,8 @@ package domain
 type Enterprise struct {
 	ID                 string      `json:"_id"`
 	LegalIdentifier    string      `json:"legalIdentifier"`
-	LogoUrl            string      `json:"LogoUrl"`
-	IsFilial           string      `json:"isFilial"`
+	LogoUrl            string      `json:"logoUrl"`
+	IsFilial           bool        `json:"isFilial"`
 	BusinessName       string      `json:"businessName"`
 	FantasyName        string      `json:"fantasyName"`
 	RegistrationStatus string      `json:"registrationStatus"`

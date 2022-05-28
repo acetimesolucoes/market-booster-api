@@ -1,30 +1,31 @@
+// https://www.youtube.com/watch?v=JP-D1In0juw&t=825s
 package utils
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
+	"time"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var client *mongo.Client
 var collection *mongo.Collection
 var ctx = context.TODO()
 
 func ConnectDB() {
 
-	err := godotenv.Load()
+	fmt.Println("Starting connection with mongodb...")
 
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
+	connectionString := os.Getenv("MONGO_STRING_CONNECTION")
+	fmt.Println(connectionString)
 
-	strCon := os.Getenv("strCon")
-
-	clientOptions := options.Client().ApplyURI(strCon)
-	client, err := mongo.Connect(ctx, clientOptions)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(connectionString))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,5 +35,5 @@ func ConnectDB() {
 		log.Fatal(err)
 	}
 
-	collection = client.Database("tasker").Collection("tasks")
+	// collection = client.Database("tasker").Collection("tasks")
 }

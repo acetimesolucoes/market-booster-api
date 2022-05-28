@@ -7,6 +7,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: acetimesolucoes
+    networks:
+      - external
+    ports:
+      - 27017:27017
     
   mongo-express:
     image: mongo-express
@@ -16,4 +20,8 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: acetimesolucoes
-      ME_CONFIG_MONGODB_URL: mongodb://root:acetimesolucoes@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:acetimesolucoes@mongo:27017
+
+networks:
+  external:
+    driver: bridge

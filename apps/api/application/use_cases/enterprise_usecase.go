@@ -1,9 +1,10 @@
 package use_cases
 
 import (
-	"acetime-business-crm/apps/api/domain"
 	"fmt"
 	"net/http"
+
+	"acetime.com.br/business-crm/apps/api/domain"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,4 +1,4 @@
-module acetime-business-crm
+module acetime.com.br/business-crm
 
 go 1.18
 

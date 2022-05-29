@@ -17,7 +17,8 @@ func main() {
 	fmt.Println("Starting the application...")
 	utils.ConnectDB()
 
-	err := godotenv.Load("./config/env/development.env")
+	err := godotenv.Load("apps/api/.env")
+
 	if err == nil {
 		log.Fatal("Failed with load .env file.")
 	}
@@ -31,11 +32,11 @@ func main() {
 		enterprises := v1.Group("enterprises")
 		{
 			// Enterprises
-			enterprises.GET("", use_cases.GetEnterprises)
-			enterprises.GET(":id", use_cases.GetEnterpriseById)
-			enterprises.POST("", use_cases.CreateEnterprise)
-			enterprises.PUT(":id", use_cases.UpdateEnterprise)
-			enterprises.DELETE(":id", use_cases.DeleteEnterprise)
+			enterprises.GET("/", use_cases.GetEnterprises)
+			enterprises.GET("/:id", use_cases.GetEnterpriseById)
+			enterprises.POST("/", use_cases.CreateEnterprise)
+			enterprises.PUT("/:id", use_cases.UpdateEnterprise)
+			enterprises.DELETE("/:id", use_cases.DeleteEnterprise)
 		}
 	}
 

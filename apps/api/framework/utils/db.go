@@ -13,7 +13,6 @@ import (
 )
 
 var client *mongo.Client
-var collection *mongo.Collection
 var ctx = context.TODO()
 
 func ConnectDB() {
@@ -36,4 +35,9 @@ func ConnectDB() {
 	}
 
 	// collection = client.Database("tasker").Collection("tasks")
+}
+
+func GetClientDB() (*mongo.Client, error) {
+	connectionString := os.Getenv("MONGO_STRING_CONNECTION")
+	return mongo.Connect(ctx, options.Client().ApplyURI(connectionString))
 }

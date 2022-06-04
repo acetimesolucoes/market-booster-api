@@ -4,15 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"acetime.com.br/business-crm/apps/api/application/repository"
-
 	"github.com/gin-gonic/gin"
 )
 
 func GetEnterprises(c *gin.Context) {
 	fmt.Println("Start to get enterprises")
-	result := repository.Find()
-	c.IndentedJSON(http.StatusOK, result)
+	c.IndentedJSON(http.StatusOK, []string{})
 }
 
 func GetEnterpriseById(c *gin.Context) {

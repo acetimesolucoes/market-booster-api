@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build api
 
 # This is the stage where the final production image is built
-FROM golang:1.17-alpine as final
+FROM golang:1.18-alpine as final
 
 # Copy over artifacts from builder image
 COPY --from=builder /workspace/dist/apps/api /workspace/api

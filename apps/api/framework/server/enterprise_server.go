@@ -1,4 +1,12 @@
 package server
 
-type EnterpriseServer struct {
+type IEnterpriseServer interface {
+	Find()
+	Create()
+	Update()
+	Delete()
+}
+
+func Find() {
+
 }

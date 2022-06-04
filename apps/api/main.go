@@ -14,16 +14,18 @@ import (
 
 func main() {
 
-	fmt.Println("Starting the application...")
-	// utils.ConnectDB()
+	// Loading .env file
+	err := godotenv.Load("env")
+	if err == nil {
+		fmt.Println(err)
+		log.Fatal("Failed with load .env file.")
+	}
 
-	// err := godotenv.Load("tools/config/env/development.env")
-
-	// if err == nil {
-	// 	log.Fatal("Failed with load .env file.")
-	// }
+	// Connecting to database
+	utils.ConnectDB()
 
 	port := os.Getenv("PORT")
+	fmt.Println("PORT => " + port)
 
 	router := gin.Default()
 

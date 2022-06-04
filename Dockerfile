@@ -5,16 +5,16 @@ FROM nxgo/cli as builder
 WORKDIR /workspace
 
 # Copy package.json and the lock file
-COPY package.json yarn.lock /workspace/
+COPY package.json /workspace/
 
 # Install app dependencies
-RUN yarn
+RUN npm install
 
 # Copy source files
 COPY . .
 
 # Build apps
-RUN yarn build api
+RUN npm run build api
 
 # This is the stage where the final production image is built
 FROM golang:1.17-alpine as final
@@ -23,11 +23,21 @@ FROM golang:1.17-alpine as final
 COPY --from=builder /workspace/dist/apps/api /workspace/api
 
 # Set environment variables
-ENV PORT=5000
+ENV PORT=3000
 ENV HOST=0.0.0.0
 
 # Expose default port
-EXPOSE 5000
+EXPOSE 3000
 
 # Start server
 CMD [ "/workspace/api" ]
+
+# FROM golang:latest
+
+# RUN go install github.com/canthefason/go-watcher/cmd/watcher@latest
+
+# WORKDIR /opt/acetimesolucoes
+
+# COPY ./apps/api /opt/acetimesolucoes
+
+# ENTRYPOINT /go/bin/watcher

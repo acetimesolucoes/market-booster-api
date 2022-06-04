@@ -4,11 +4,11 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve api",
+    "start:dev": "nx serve api",
     "build": "nx build api",
     "test": "nx test"
   },
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "@nrwl/cli": "14.1.9",
     "@nrwl/workspace": "14.1.9",

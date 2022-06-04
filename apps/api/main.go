@@ -15,13 +15,13 @@ import (
 func main() {
 
 	fmt.Println("Starting the application...")
-	utils.ConnectDB()
+	// utils.ConnectDB()
 
-	err := godotenv.Load("apps/api/.env")
+	// err := godotenv.Load("tools/config/env/development.env")
 
-	if err == nil {
-		log.Fatal("Failed with load .env file.")
-	}
+	// if err == nil {
+	// 	log.Fatal("Failed with load .env file.")
+	// }
 
 	port := os.Getenv("PORT")
 

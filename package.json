@@ -16,5 +16,6 @@
     "nx": "14.1.9",
     "prettier": "^2.5.1",
     "typescript": "~4.6.2"
-  }
+  },
+  "dependencies": {}
 }

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"acetime.com.br/business-crm/apps/api/application/use_cases"
+	"acetime.com.br/business-crm/apps/api/application/controllers"
 	"acetime.com.br/business-crm/apps/api/framework/utils"
 
 	"github.com/gin-gonic/gin"
@@ -33,12 +33,13 @@ func main() {
 	{
 		enterprises := v1.Group("enterprises")
 		{
+			controller := new(controllers.EnterpriseController)
 			// Enterprises
-			enterprises.GET("/", use_cases.GetEnterprises)
-			enterprises.GET("/:id", use_cases.GetEnterpriseById)
-			enterprises.POST("/", use_cases.CreateEnterprise)
-			enterprises.PUT("/:id", use_cases.UpdateEnterprise)
-			enterprises.DELETE("/:id", use_cases.DeleteEnterprise)
+			enterprises.GET("/", controller.FindAllAsync)
+			enterprises.GET("/:id", controller.FindByIdAsync)
+			enterprises.POST("/", controller.CreateAsync)
+			enterprises.PUT("/:id", controller.UpdateAsync)
+			enterprises.DELETE("/:id", controller.DeleteAsync)
 		}
 	}
 

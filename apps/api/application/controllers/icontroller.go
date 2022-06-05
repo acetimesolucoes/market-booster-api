@@ -1,7 +1,7 @@
 package controllers
 
 type IController interface {
-	Find()
+	FindAll()
 	FindById(id string)
 	Create(entity []string)
 	Update(id string)

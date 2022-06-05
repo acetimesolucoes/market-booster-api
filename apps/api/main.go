@@ -25,7 +25,6 @@ func main() {
 	utils.ConnectDB()
 
 	port := os.Getenv("PORT")
-	fmt.Println("PORT => " + port)
 
 	router := gin.Default()
 
@@ -35,11 +34,11 @@ func main() {
 		{
 			controller := new(controllers.EnterpriseController)
 			// Enterprises
-			enterprises.GET("/", controller.FindAllAsync)
-			enterprises.GET("/:id", controller.FindByIdAsync)
-			enterprises.POST("/", controller.CreateAsync)
-			enterprises.PUT("/:id", controller.UpdateAsync)
-			enterprises.DELETE("/:id", controller.DeleteAsync)
+			enterprises.GET("/", controller.FindAll)
+			enterprises.GET("/:id", controller.FindById)
+			enterprises.POST("/", controller.Create)
+			enterprises.PUT("/:id", controller.Update)
+			enterprises.DELETE("/:id", controller.Delete)
 		}
 	}
 

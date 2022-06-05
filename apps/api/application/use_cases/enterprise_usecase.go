@@ -1,30 +1,49 @@
-package use_cases
+package enterprise_use_cases
 
 import (
-	"fmt"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	enterpriseRepository "acetime.com.br/business-crm/apps/api/application/repository"
+	"acetime.com.br/business-crm/apps/api/domain"
 )
 
-func GetEnterprises(c *gin.Context) {
-	fmt.Println("Start to get enterprises")
-	c.IndentedJSON(http.StatusOK, []string{})
+func Find() (domain.Enterprises, error) {
+	enterprises, err := enterpriseRepository.Find()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return enterprises, nil
 }
 
-func GetEnterpriseById(c *gin.Context) {
-	fmt.Println("Start to get enterprises")
-	c.IndentedJSON(http.StatusOK, []string{})
+func Create(enterprise domain.Enterprise) error {
+
+	err := enterpriseRepository.Save(enterprise)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func CreateEnterprise(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, []string{})
+func Update(enterpriseId string, enterprise domain.Enterprise) error {
+
+	err := enterpriseRepository.Update(enterpriseId, enterprise)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func UpdateEnterprise(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, []string{})
-}
+func Delete(enterpriseId string) error {
 
-func DeleteEnterprise(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, []string{})
+	err := enterpriseRepository.Delete(enterpriseId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

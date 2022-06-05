@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve api",
-    "start:dev": "nx serve api",
+    "prebuild": "clear",
+    "start:api": "nx serve api",
+    "start:api:dev": "nx serve api",
     "build": "nx build api",
-    "test": "nx test"
+    "test": "nx test",
+    "test:api": "nx test api"
   },
   "private": true,
   "devDependencies": {

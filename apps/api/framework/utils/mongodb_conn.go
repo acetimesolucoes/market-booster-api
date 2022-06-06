@@ -1,33 +1,35 @@
+// https://www.youtube.com/watch?v=JP-D1In0juw&t=825s
+
 package utils
 
 import (
 	"context"
 	"fmt"
-	"os"
-	"strconv"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// var (
+// 	usr  = os.Getenv("MONGO_DB_NAME")
+// 	pwd  = os.Getenv("MONGO_DB_PWD")
+// 	host = os.Getenv("MONGO_DB_HOST")
+// 	port = os.Getenv("MONGO_DB_PORT")
+// 	db   = os.Getenv("MONGO_DB_DBNAME")
+// )
+
 var (
-	usr  = os.Getenv("MONGO_DB_NAME")
-	pwd  = os.Getenv("MONGO_DB_PWD")
-	host = os.Getenv("MONGO_DB_HOST")
-	port = os.Getenv("MONGO_DB_PORT")
-	db   = os.Getenv("MONGO_DB_DBNAME")
+	usr  = "root"
+	pwd  = "acetimesolucoes"
+	host = "localhost"
+	port = "27017"
+	db   = "actm-business-crm"
 )
 
 func GetCollection(collection string) *mongo.Collection {
 
-	port, err := strconv.ParseInt(port, 0, 32)
-
-	if err != nil {
-		fmt.Print(err)
-	}
-
-	uri := fmt.Sprintf("mongodb://%s:%s@%s:%d", usr, pwd, host, port)
+	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s", usr, pwd, host, port)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 

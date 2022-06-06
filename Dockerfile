@@ -31,13 +31,3 @@ EXPOSE 3000
 
 # Start server
 CMD [ "/workspace/api" ]
-
-# FROM golang:latest
-
-# RUN go install github.com/canthefason/go-watcher/cmd/watcher@latest
-
-# WORKDIR /opt/acetimesolucoes
-
-# COPY ./apps/api /opt/acetimesolucoes
-
-# ENTRYPOINT /go/bin/watcher

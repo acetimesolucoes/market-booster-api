@@ -15,3 +15,5 @@ type Customer struct {
 	UpdatedDate     time.Time
 	UpdatedBy       string
 }
+
+type Customers []Customer

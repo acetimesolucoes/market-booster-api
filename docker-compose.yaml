@@ -27,7 +27,7 @@ services:
   #     context: .
   #   container_name: acetimesolucoes-bscrm-api
   #   ports:
-  #     - 5000:5000
+  #     - 3000:3000
   #   volumes:
   #     - .:/opt/acetimesolucoes
   #   working_dir: /opt/acetimesolucoes

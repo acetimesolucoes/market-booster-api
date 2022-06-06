@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"acetime.com.br/business-crm/apps/api/application/controllers"
-	"acetime.com.br/business-crm/apps/api/framework/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -21,9 +20,6 @@ func main() {
 		log.Fatal("Failed with load .env file.")
 	}
 
-	// Connecting to database
-	utils.ConnectDB()
-
 	port := os.Getenv("PORT")
 
 	router := gin.Default()
@@ -32,13 +28,13 @@ func main() {
 	{
 		enterprises := v1.Group("enterprises")
 		{
-			controller := new(controllers.EnterpriseController)
+			enterpriseController := new(controllers.EnterpriseController)
 			// Enterprises
-			enterprises.GET("/", controller.FindAll)
-			enterprises.GET("/:id", controller.FindById)
-			enterprises.POST("/", controller.Create)
-			enterprises.PUT("/:id", controller.Update)
-			enterprises.DELETE("/:id", controller.Delete)
+			enterprises.GET("/", enterpriseController.FindAll)
+			enterprises.GET("/:id", enterpriseController.FindById)
+			enterprises.POST("/", enterpriseController.Create)
+			enterprises.PUT("/:id", enterpriseController.Update)
+			enterprises.DELETE("/:id", enterpriseController.Delete)
 		}
 	}
 

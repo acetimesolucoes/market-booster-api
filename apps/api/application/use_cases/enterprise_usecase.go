@@ -5,14 +5,26 @@ import (
 	"acetime.com.br/business-crm/apps/api/domain"
 )
 
-func Find() (domain.Enterprises, error) {
-	enterprises, err := enterpriseRepository.Find()
+func FindAll() (domain.Enterprises, error) {
+
+	enterprises, err := enterpriseRepository.FindAll()
 
 	if err != nil {
 		return nil, err
 	}
 
 	return enterprises, nil
+}
+
+func FindOneById(enterpriseId string) (domain.Enterprise, error) {
+
+	enterprise, err := enterpriseRepository.FindOneById(enterpriseId)
+
+	if err != nil {
+		return enterprise, err
+	}
+
+	return enterprise, nil
 }
 
 func Create(enterprise domain.Enterprise) error {

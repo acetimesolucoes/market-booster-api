@@ -11,6 +11,8 @@ services:
       - external
     ports:
       - 27017:27017
+    volumes:
+      - mongodbdata:/data/db
     
   # mongo-express:
   #   image: mongo-express
@@ -31,6 +33,10 @@ services:
   #   volumes:
   #     - .:/opt/acetimesolucoes
   #   working_dir: /opt/acetimesolucoes
+
+volumes:
+  mongodbdata:
+    driver: local
 
 networks:
   external:

@@ -89,11 +89,14 @@ func Update(enterpriseId string, enterprise domain.Enterprise) error {
 
 	filter := bson.M{"_id": oid}
 
+	// todo: concluir
 	updated := bson.M{
 		"$set": bson.M{
-			"businessName": enterprise.BusinessName,
-			"CNAEList":     enterprise.CNAE,
-			"updatedAt":    time.Now(),
+			"business_name": enterprise.BusinessName,
+			"CNAE":          enterprise.CNAE,
+			"fantasy_name":  enterprise.FantasyName,
+			"is_filial":     enterprise.IsFilial,
+			"updated_at":    time.Now(),
 		},
 	}
 

@@ -1,0 +1,98 @@
+basePath: /api/v1
+host: localhost:3000
+info:
+  contact: {}
+  title: Acetime Business API Documentation
+  version: 1.0.0
+paths:
+  /enterprises:
+    get:
+      consumes:
+      - application/json
+      description: Find All Enterprises
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Enterprises
+      tags:
+      - enterprise
+    post:
+      consumes:
+      - application/json
+      description: Create Enterprise
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Create Enterprise
+      tags:
+      - enterprise
+  /enterprises/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Enterprise
+      parameters:
+      - description: EnterpriseID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Delete Enterprise
+      tags:
+      - enterprise
+    get:
+      consumes:
+      - application/json
+      description: Find All Enterprises
+      parameters:
+      - description: Enterprise ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Enterprise by id
+      tags:
+      - enterprise
+    put:
+      consumes:
+      - application/json
+      description: Update Enterprise
+      parameters:
+      - description: EnterpriseID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Update Enterprise
+      tags:
+      - enterprise
+swagger: "2.0"

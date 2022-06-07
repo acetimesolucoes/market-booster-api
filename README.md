@@ -8,6 +8,36 @@ This project was generated using [Nx](https://nx.dev).
 
 🔎 **Smart, Fast and Extensible Build System**
 
+## Pre-requisites
+
+### Live reload on Gow
+
+[Gow](https://github.com/mitranim/gow#installation)
+
+```bash
+go install github.com/mitranim/gow@latest
+```
+
+```bash
+export GOPATH=~/go
+export PATH=$PATH:$GOPATH/bin
+```
+
+Alternatively, you can run the executable using the full path.
+
+### Documentation
+
+```bash
+swag init
+```
+
+
+## To run this project
+
+```bash
+yarn start:api:dev
+```
+
 ## Adding capabilities to your workspace
 
 Nx supports many plugins which add capabilities for developing different types of applications and different tools.

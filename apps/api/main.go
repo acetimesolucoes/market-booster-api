@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"acetime.com.br/business-crm/apps/api/docs"
-	"acetime.com.br/business-crm/apps/api/framework/http/controllers"
+	"acetime.com.br/business-crm/apps/api/framework/http/routers"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
@@ -36,17 +36,8 @@ func main() {
 	// @BasePath /api/v1
 	v1 := router.Group("/api/v1")
 	{
-		// todo: moove the router to external file
-		enterprises := v1.Group("enterprises")
-		{
-			enterpriseController := new(controllers.EnterpriseController)
-			// Enterprises
-			enterprises.GET("/", enterpriseController.FindAll)
-			enterprises.GET("/:id", enterpriseController.FindById)
-			enterprises.POST("/", enterpriseController.Create)
-			enterprises.PUT("/:id", enterpriseController.Update)
-			enterprises.DELETE("/:id", enterpriseController.Delete)
-		}
+		// Enterprises router
+		new(routers.EnterpriseRouter).CreateRouter(v1)
 	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))

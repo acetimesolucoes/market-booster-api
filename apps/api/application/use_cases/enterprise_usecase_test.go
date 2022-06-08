@@ -55,7 +55,7 @@ func TestFindById(t *testing.T) {
 
 func TestFindAll(t *testing.T) {
 
-	enterprises, err := enterpriseUseCase.FindAll()
+	enterprises, err := enterpriseUseCase.FindAll(nil)
 
 	if err != nil {
 		t.Error("Teste de busca de empresas falhou!")

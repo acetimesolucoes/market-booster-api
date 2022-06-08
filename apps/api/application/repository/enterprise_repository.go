@@ -8,19 +8,21 @@ import (
 	"acetime.com.br/business-crm/apps/api/framework/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var collection = utils.GetCollection("enterprises")
 var ctx = context.Background()
 
-func FindAll() (domain.Enterprises, error) {
+func FindAll(page *int64, limit *int64) (domain.Enterprises, error) {
 
 	var enterprises domain.Enterprises
 
 	var err error
 	filter := bson.D{}
+	opts := *options.FindOptions{Skip: page, Limit: limit}
 
-	cursor, err := collection.Find(ctx, filter)
+	cursor, err := collection.Find(ctx, filter, opts)
 
 	if err != nil {
 		return nil, err

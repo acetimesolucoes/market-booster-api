@@ -16,6 +16,10 @@ import (
 // @title Acetime Business API Documentation
 // @version 1.0.0
 
+// @contact.name Acetime Soluções
+// @contact.email develop@acetime.com.br
+// @contact.url https://www.acetime.com.br
+
 // @host localhost:3000
 // @basePath /api/v1
 

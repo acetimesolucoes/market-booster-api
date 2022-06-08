@@ -1,7 +1,31 @@
 basePath: /api/v1
+definitions:
+  http_exception.HttpError:
+    properties:
+      error:
+        type: any
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  http_exception.HttpSuccess:
+    properties:
+      current_page:
+        type: integer
+      data:
+        type: any
+      limit:
+        type: integer
+      page:
+        type: integer
+    type: object
 host: localhost:3000
 info:
-  contact: {}
+  contact:
+    email: develop@acetime.com.br
+    name: Acetime Soluções
+    url: https://www.acetime.com.br
   title: Acetime Business API Documentation
   version: 1.0.0
 paths:
@@ -10,13 +34,22 @@ paths:
       consumes:
       - application/json
       description: Find All Enterprises
+      parameters:
+      - description: Current page to paginate
+        in: query
+        name: page
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/http_exception.HttpSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http_exception.HttpError'
       summary: Enterprises
       tags:
       - enterprise

@@ -2,9 +2,11 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 
 	enterpriseUseCase "acetime.com.br/business-crm/apps/api/application/use_cases"
 	"acetime.com.br/business-crm/apps/api/domain"
+	http_exception "acetime.com.br/business-crm/apps/api/framework/exception"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,23 +16,39 @@ type EnterpriseController struct {
 // @BasePath /api/v1
 
 // FindAllEnterprises godoc
-// @Summary Enterprises
+// @Summary 			Enterprises
 // @Schemes
-// @Description Find All Enterprises
-// @Tags enterprise
-// @Accept json
-// @Produce json
-// @Success 200 {string} Helloworld
+// @Description 		Find All Enterprises
+// @Tags 				enterprise
+// @Accept 				json
+// @Produce 			json
+// @Param 				page query int false "Current page to paginate"
+// @Success 			200 {object} http_exception.HttpSuccess<domain.Enterprise> Helloworld
+// @Failure				400 {object} http_exception.HttpError Helloworld
 // @Router /enterprises [get]
 func (e EnterpriseController) FindAll(c *gin.Context) {
 
-	enterprises, err := enterpriseUseCase.FindAll()
+	page, err := strconv.ParseInt(c.Param("page"), 36, 64)
+	limit, err := strconv.ParseInt(c.Param("limit"), 36, 64)
+
+	if err != nil {
+		page = 1
+		limit = 25
+	}
+
+	enterprises, err := enterpriseUseCase.FindAll(&page, &limit)
+
+	result := new(http_exception.HttpSuccess[domain.Enterprises])
+
+	result.Data = enterprises
+	result.Page = page
+	result.Limit = limit
 
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, err)
 	}
 
-	c.IndentedJSON(http.StatusOK, enterprises)
+	c.IndentedJSON(http.StatusOK, result)
 
 }
 

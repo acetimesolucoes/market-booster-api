@@ -10,7 +10,11 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "Acetime Soluções",
+            "url": "https://www.acetime.com.br",
+            "email": "develop@acetime.com.br"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -29,11 +33,25 @@ const docTemplate = `{
                     "enterprise"
                 ],
                 "summary": "Enterprises",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Current page to paginate",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/http_exception.HttpSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/http_exception.HttpError"
                         }
                     }
                 }
@@ -149,6 +167,39 @@ const docTemplate = `{
                             "type": "string"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "http_exception.HttpError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "any"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "http_exception.HttpSuccess": {
+            "type": "object",
+            "properties": {
+                "current_page": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "any"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
                 }
             }
         }

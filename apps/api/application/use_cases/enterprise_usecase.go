@@ -5,7 +5,7 @@ import (
 	"acetime.com.br/business-crm/apps/api/domain"
 )
 
-func FindAll() (domain.Enterprises, error) {
+func FindAll(page *int64, limit *int64) (domain.Enterprises, error) {
 
 	enterprises, err := enterpriseRepository.FindAll()
 

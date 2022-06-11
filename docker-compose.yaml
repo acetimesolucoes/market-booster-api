@@ -24,15 +24,12 @@ services:
   #     ME_CONFIG_MONGODB_ADMINPASSWORD: acetimesolucoes
   #     ME_CONFIG_MONGODB_URL: mongodb://root:acetimesolucoes@mongo:27017
 
-  # api:
-  #   build:
-  #     context: .
-  #   container_name: acetimesolucoes-bscrm-api
-  #   ports:
-  #     - 3000:3000
-  #   volumes:
-  #     - .:/opt/acetimesolucoes
-  #   working_dir: /opt/acetimesolucoes
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+    container_name: acetimesolucoes-bscrm-api
+    ports:
+      - 3000:3000
 
 volumes:
   mongodbdata:

@@ -28,15 +28,18 @@ type EnterpriseController struct {
 // @Router /enterprises [get]
 func (e EnterpriseController) FindAll(c *gin.Context) {
 
-	page, err := strconv.ParseInt(c.Param("page"), 36, 64)
-	limit, err := strconv.ParseInt(c.Param("limit"), 36, 64)
+	page, pageErr := strconv.ParseInt(c.Param("page"), 36, 64)
+	limit, limitErr := strconv.ParseInt(c.Param("limit"), 36, 64)
 
-	if err != nil {
+	if pageErr != nil {
 		page = 1
+	}
+
+	if limitErr != nil {
 		limit = 25
 	}
 
-	enterprises, err := enterpriseUseCase.FindAll(&page, &limit)
+	enterprises, err := enterpriseUseCase.FindAll(page, limit)
 
 	result := new(http_exception.HttpSuccess[domain.Enterprises])
 
@@ -48,7 +51,7 @@ func (e EnterpriseController) FindAll(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, err)
 	}
 
-	c.IndentedJSON(http.StatusOK, result)
+	c.IndentedJSON(http.StatusOK, []string{})
 
 }
 

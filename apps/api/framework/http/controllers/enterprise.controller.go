@@ -28,10 +28,8 @@ type EnterpriseController struct {
 // @Router /enterprises [get]
 func (e EnterpriseController) FindAll(c *gin.Context) {
 
-	page, pageErr := strconv.ParseInt(c.Query("page"), 36, 64)
-	limit, limitErr := strconv.ParseInt(c.Query("limit"), 36, 32)
-
-	// var limitParsed *int32
+	page, pageErr := strconv.ParseInt(c.Query("page"), 0, 64)
+	limit, limitErr := strconv.ParseInt(c.Query("limit"), 0, 64)
 
 	if pageErr != nil {
 		page = 1

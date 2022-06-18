@@ -22,7 +22,9 @@ func FindAll(page int64, limit int64) (domain.Enterprises, error) {
 	filter := bson.D{}
 
 	opts := new(options.FindOptions)
-	opts.BatchSize = limit
+	opts.Limit = &limit
+	calc := (page-1)*limit + 1
+	opts.Skip = &calc
 
 	cursor, err := collection.Find(ctx, filter, opts)
 

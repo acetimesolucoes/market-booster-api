@@ -28,8 +28,10 @@ type EnterpriseController struct {
 // @Router /enterprises [get]
 func (e EnterpriseController) FindAll(c *gin.Context) {
 
-	page, pageErr := strconv.ParseInt(c.Param("page"), 36, 64)
-	limit, limitErr := strconv.ParseInt(c.Param("limit"), 36, 64)
+	page, pageErr := strconv.ParseInt(c.Query("page"), 36, 64)
+	limit, limitErr := strconv.ParseInt(c.Query("limit"), 36, 32)
+
+	// var limitParsed *int32
 
 	if pageErr != nil {
 		page = 1
@@ -51,7 +53,7 @@ func (e EnterpriseController) FindAll(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, err)
 	}
 
-	c.IndentedJSON(http.StatusOK, []string{})
+	c.IndentedJSON(http.StatusOK, result)
 
 }
 

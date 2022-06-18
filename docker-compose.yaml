@@ -14,22 +14,24 @@ services:
     volumes:
       - mongodbdata:/data/db
     
-  # mongo-express:
-  #   image: mongo-express
-  #   restart: always
-  #   ports:
-  #     - 8081:8081
-  #   environment:
-  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
-  #     ME_CONFIG_MONGODB_ADMINPASSWORD: acetimesolucoes
-  #     ME_CONFIG_MONGODB_URL: mongodb://root:acetimesolucoes@mongo:27017
-
-  api:
-    build:
-      dockerfile: Dockerfile.dev
-    container_name: acetimesolucoes-bscrm-api
+  mongo-express:
+    image: mongo-express
+    restart: always
+    networks:
+      - external
     ports:
-      - 3000:3000
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: acetimesolucoes
+      ME_CONFIG_MONGODB_URL: mongodb://root:acetimesolucoes@mongo:27017
+
+  # api:
+  #   build:
+  #     dockerfile: Dockerfile.dev
+  #   container_name: acetimesolucoes-bscrm-api
+  #   ports:
+  #     - 3000:3000
 
 volumes:
   mongodbdata:

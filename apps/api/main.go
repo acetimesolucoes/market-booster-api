@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/acetimesolutions/marketbooster/apps/api/docs"
-	"github.com/acetimesolutions/marketbooster/apps/api/framework/http/routers"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"

@@ -1,4 +1,4 @@
-FROM golang:1.17 AS builder
+FROM golang:1.18 AS builder
 
 WORKDIR /workspace
 
@@ -6,6 +6,8 @@ COPY go.mod /workspace/
 COPY go.sum /workspace/
 COPY apps/api /workspace/
 COPY apps/api/main.go /workspace/
+
+RUN go get
 
 RUN go build -o /workspace/api/main.go
 
@@ -23,5 +25,3 @@ EXPOSE 3000
 USER nonroot:nonroot
 
 CMD [ "/api" ]
-
-

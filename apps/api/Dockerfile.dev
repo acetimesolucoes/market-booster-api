@@ -7,8 +7,6 @@ COPY go.sum /workspace/
 COPY apps/api /workspace/
 COPY apps/api/main.go /workspace/
 
-RUN go get
-
 RUN go build -o /workspace/api/main.go
 
 FROM gcr.io/distroless/base-debian10 as final

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/acetimesolutions/marketbooster/apps/api/docs"
+	// "github.com/acetimesolutions/marketbooster/apps/api/docs"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
@@ -34,14 +34,14 @@ func main() {
 	port := os.Getenv("PORT")
 
 	router := gin.Default()
-	docs.SwaggerInfo.BasePath = "/api/v1"
+	// docs.SwaggerInfo.BasePath = "/api/v1"
 
-	// @BasePath /api/v1
-	v1 := router.Group("/api/v1")
-	{
-		// Enterprises router
-		new(routers.EnterpriseRouter).CreateRouter(v1)
-	}
+	// // @BasePath /api/v1
+	// v1 := router.Group("/api/v1")
+	// {
+	// 	// Enterprises router
+	// 	new(routers.EnterpriseRouter).CreateRouter(v1)
+	// }
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	router.Run(":" + port)

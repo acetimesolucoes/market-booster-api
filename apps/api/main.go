@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/acetime/business-erp/apps/api/docs"
-	"github.com/acetime/business-erp/apps/api/framework/http/routers"
+	"github.com/acetimesolutions/marketbooster/apps/api/docs"
+	"github.com/acetimesolutions/marketbooster/apps/api/framework/http/routers"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"

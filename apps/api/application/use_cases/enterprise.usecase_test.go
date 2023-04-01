@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	enterpriseUseCase "github.com/acetime/business-erp/apps/api/application/use_cases"
-	"github.com/acetime/business-erp/apps/api/domain"
+	enterpriseUseCase "github.com/acetimesolutions/marketbooster/apps/api/application/use_cases"
+	"github.com/acetimesolutions/marketbooster/apps/api/domain"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

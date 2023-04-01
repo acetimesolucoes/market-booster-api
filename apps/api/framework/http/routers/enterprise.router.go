@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"github.com/acetime/business-erp/apps/api/framework/http/controllers"
+	"github.com/acetimesolutions/marketbooster/apps/api/framework/http/controllers"
 	"github.com/gin-gonic/gin"
 )
 

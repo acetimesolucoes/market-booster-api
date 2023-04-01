@@ -1,4 +1,4 @@
-module github.com/acetime/business-erp
+module github.com/acetimesolutions/marketbooster
 
 go 1.18
 

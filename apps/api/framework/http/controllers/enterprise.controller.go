@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	enterpriseUseCase "acetime.com.br/business-crm/apps/api/application/use_cases"
-	"acetime.com.br/business-crm/apps/api/domain"
-	http_exception "acetime.com.br/business-crm/apps/api/framework/exception"
+	enterpriseUseCase "github.com/acetime/business-erp/apps/api/application/use_cases"
+	"github.com/acetime/business-erp/apps/api/domain"
+	http_exception "github.com/acetime/business-erp/apps/api/framework/exception"
 	"github.com/gin-gonic/gin"
 )
 

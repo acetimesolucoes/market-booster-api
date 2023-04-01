@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"acetime.com.br/business-crm/apps/api/framework/http/controllers"
+	"github.com/acetime/business-erp/apps/api/framework/http/controllers"
 	"github.com/gin-gonic/gin"
 )
 

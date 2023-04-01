@@ -1,4 +1,4 @@
-module acetime.com.br/business-crm
+module github.com/acetime/business-erp
 
 go 1.18
 

@@ -1,8 +1,8 @@
 package enterprise_use_cases
 
 import (
-	enterpriseRepository "acetime.com.br/business-crm/apps/api/application/repository"
-	"acetime.com.br/business-crm/apps/api/domain"
+	enterpriseRepository "github.com/acetime/business-erp/apps/api/application/repository"
+	"github.com/acetime/business-erp/apps/api/domain"
 )
 
 func FindAll(page int64, limit int64) (domain.Enterprises, error) {

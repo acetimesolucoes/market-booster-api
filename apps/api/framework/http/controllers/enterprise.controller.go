@@ -23,8 +23,6 @@ type EnterpriseController struct {
 // @Accept 				json
 // @Produce 			json
 // @Param 				page query int false "Current page to paginate"
-// @Success 			200 {object} http_exception.HttpSuccess<domain.Enterprise> Helloworld
-// @Failure				400 {object} http_exception.HttpError Helloworld
 // @Router /enterprises [get]
 func (e EnterpriseController) FindAll(c *gin.Context) {
 

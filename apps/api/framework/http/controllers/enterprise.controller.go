@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	enterpriseUseCase "github.com/acetimesolutions/marketbooster/apps/api/application/use_cases"
-	"github.com/acetimesolutions/marketbooster/apps/api/domain"
-	http_exception "github.com/acetimesolutions/marketbooster/apps/api/framework/exception"
+	enterpriseUseCase "github.com/acetimesolutions/marketbooster/application/use_cases"
+	"github.com/acetimesolutions/marketbooster/domain"
+	http_exception "github.com/acetimesolutions/marketbooster/framework/exception"
 	"github.com/gin-gonic/gin"
 )
 

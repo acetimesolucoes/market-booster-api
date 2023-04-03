@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/acetimesolutions/marketbooster/apps/api/domain"
-	"github.com/acetimesolutions/marketbooster/apps/api/framework/utils"
+	"github.com/acetimesolutions/marketbooster/domain"
+	"github.com/acetimesolutions/marketbooster/framework/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"

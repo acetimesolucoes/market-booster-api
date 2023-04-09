@@ -32,6 +32,10 @@ services:
     container_name: acetimesolucoes-bscrm-api
     ports:
       - "3000:3000"
+    networks:
+      - external
+    depends_on:
+      - "mongo"
     # volumes:
     #   - type: bind
     #     source: ./apps/api

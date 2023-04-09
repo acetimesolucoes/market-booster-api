@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"time"
+	"fmt"
 
 	"github.com/acetimesolutions/marketbooster/domain"
 	"github.com/acetimesolutions/marketbooster/framework/utils"
@@ -29,6 +30,7 @@ func FindAll(page int64, limit int64) (domain.Enterprises, error) {
 	cursor, err := collection.Find(ctx, filter, opts)
 
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 

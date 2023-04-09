@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"net/http"
 
 	"github.com/acetimesolutions/marketbooster/docs"
 	"github.com/acetimesolutions/marketbooster/framework/http/routers"
@@ -36,6 +37,12 @@ func main() {
 
 	router := gin.Default()
 	docs.SwaggerInfo.BasePath = "/api/v1"
+
+	router.GET("/ping", func(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+      "message": "pong",
+    })
+  })
 
 	// @BasePath /api/v1
 	v1 := router.Group("/api/v1")

@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"time"
+	// "os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -22,14 +23,21 @@ import (
 var (
 	usr  = "root"
 	pwd  = "acetimesolucoes"
-	host = "localhost"
+	host = "mongo"
 	port = "27017"
 	db   = "actm-business-crm"
 )
 
 func GetCollection(collection string) *mongo.Collection {
 
-	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s", usr, pwd, host, port)
+	fmt.Println("usr: ", usr)
+	fmt.Println("pwd: ", pwd)
+	fmt.Println("host: ", host)
+	fmt.Println("port: ", port)
+
+	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s/%s?authSource=admin", usr, pwd, host, port, db)
+
+	fmt.Println(uri)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 
@@ -39,10 +47,15 @@ func GetCollection(collection string) *mongo.Collection {
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	err = client.Connect(ctx)
+	err = client.Ping(context.TODO(), nil)
+
+	fmt.Println(err)
 
 	if err != nil {
 		panic(err.Error())
 	}
+
+	fmt.Println("Connected to MongoDB!")
 
 	return client.Database(db).Collection(collection)
 }

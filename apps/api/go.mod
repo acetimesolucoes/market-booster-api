@@ -1,4 +1,4 @@
-module github.com/acetimesolutions/marketbooster
+module marketbooster
 
 go 1.18
 
@@ -37,6 +37,11 @@ require (
 	go.mongodb.org/mongo-driver v1.9.1 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
+	github.com/coreos/go-oidc/v3 v3.1.0
+	github.com/gin-contrib/sessions v0.0.3
+	github.com/gin-gonic/gin v1.7.4
+	github.com/joho/godotenv v1.4.0
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 )
 
 require (

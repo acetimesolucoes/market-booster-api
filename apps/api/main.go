@@ -6,8 +6,8 @@ import (
 	"os"
 	"net/http"
 
-	"github.com/acetimesolutions/marketbooster/docs"
-	"github.com/acetimesolutions/marketbooster/framework/http/routers"
+	"marketbooster/docs"
+	"marketbooster/framework/http/routers"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
@@ -26,11 +26,8 @@ import (
 
 func main() {
 
-	// Loading .env file
-	err := godotenv.Load("env")
-	if err == nil {
-		fmt.Println(err)
-		log.Fatal("Failed with load .env file.")
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Failed to load the env vars %v", err)
 	}
 
 	port := os.Getenv("PORT")
@@ -47,6 +44,8 @@ func main() {
 	// @BasePath /api/v1
 	v1 := router.Group("/api/v1")
 	{
+		// Authentication router
+		new(routers.AuthenticationRouter).CreateRouter(v1)
 		// Enterprises router
 		new(routers.EnterpriseRouter).CreateRouter(v1)
 	}

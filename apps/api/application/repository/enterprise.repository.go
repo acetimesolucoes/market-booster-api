@@ -5,8 +5,8 @@ import (
 	"time"
 	"fmt"
 
-	"github.com/acetimesolutions/marketbooster/domain"
-	"github.com/acetimesolutions/marketbooster/framework/utils"
+	"marketbooster/domain"
+	"marketbooster/framework/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"

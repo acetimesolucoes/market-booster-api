@@ -1,6 +1,6 @@
 package http_exception
 
-import "github.com/acetimesolutions/marketbooster/domain"
+import "marketbooster/domain"
 
 type HttpSuccess[Enterprises domain.Enterprises] struct {
 	Data  Enterprises `json:"data"`

@@ -35,11 +35,11 @@ services:
     networks:
       - external
     depends_on:
-      - "mongo"
-    # volumes:
-    #   - type: bind
-    #     source: ./apps/api
-    #     target: /workspace
+      - mongo
+    volumes:
+      - type: bind
+        source: ./apps/api
+        target: /workspace
     # command: >
     #   bash -c "ls -la"
 

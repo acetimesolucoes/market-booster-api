@@ -7,7 +7,7 @@ import (
 
 type AuthenticationRouter struct{}
 
-func (ar *AuthenticationRouter) CreateRouter(rg *gin.RouterGroup) {
+func (auth *AuthenticationRouter) CreateRouter(rg *gin.RouterGroup) {
 
 	r := rg.Group("oauth")
 	{

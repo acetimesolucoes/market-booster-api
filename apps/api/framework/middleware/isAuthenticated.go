@@ -11,6 +11,7 @@ import (
 // the user has already been authenticated previously.
 func IsAuthenticated(ctx *gin.Context) {
 	if sessions.Default(ctx).Get("profile") == nil {
+		// TODO: Return the 403 unauthorized
 		ctx.Redirect(http.StatusSeeOther, "/")
 	} else {
 		ctx.Next()

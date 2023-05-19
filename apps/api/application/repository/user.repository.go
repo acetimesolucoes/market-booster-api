@@ -12,14 +12,16 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type EnterpriseRepository struct {}
+type UserRepository struct {
 
-var collection = utils.GetCollection("enterprises")
+}
+
+var collection = utils.GetCollection("users")
 var ctx = context.Background()
 
-func (r *EnterpriseRepository) FindAll(page int64, limit int64) (domain.Enterprises, error) {
+func (r *UserRepository) FindAll(page int64, limit int64) (domain.Users, error) {
 
-	var enterprises domain.Enterprises
+	var users domain.Users
 
 	var err error
 	filter := bson.D{}
@@ -38,24 +40,24 @@ func (r *EnterpriseRepository) FindAll(page int64, limit int64) (domain.Enterpri
 
 	for cursor.Next(ctx) {
 
-		var enterprise domain.Enterprise
-		err = cursor.Decode(&enterprise)
+		var user domain.Enterprise
+		err = cursor.Decode(&user)
 
 		if err != nil {
 			return nil, err
 		}
 
-		enterprises = append(enterprises, &enterprise)
+		users = append(users, &user)
 	}
 
-	return enterprises, nil
+	return users, nil
 }
 
-func (r *EnterpriseRepository) FindOneById(enterpriseId string) (domain.Enterprise, error) {
+func (r *UserRepository) FindOneById(userId string) (domain.Enterprise, error) {
 
 	var err error
 
-	oid, err := primitive.ObjectIDFromHex(enterpriseId)
+	oid, err := primitive.ObjectIDFromHex(userId)
 
 	if err != nil {
 		return domain.Enterprise{}, err
@@ -65,24 +67,24 @@ func (r *EnterpriseRepository) FindOneById(enterpriseId string) (domain.Enterpri
 
 	result := collection.FindOne(ctx, filter)
 
-	var enterprise domain.Enterprise
-	err = result.Decode(&enterprise)
+	var user domain.Enterprise
+	err = result.Decode(&user)
 
 	if err != nil {
-		return enterprise, err
+		return user, err
 	}
 
-	return enterprise, nil
+	return user, nil
 
 }
 
-func (r *EnterpriseRepository) Save(enterprise domain.Enterprise) error {
+func (r *UserRepository) Save(user domain.Enterprise) error {
 
 	var err error
 
-	enterprise.CreatedAt = time.Now()
+	user.CreatedAt = time.Now()
 
-	_, err = collection.InsertOne(ctx, enterprise)
+	_, err = collection.InsertOne(ctx, user)
 
 	if err != nil {
 		return err
@@ -91,22 +93,21 @@ func (r *EnterpriseRepository) Save(enterprise domain.Enterprise) error {
 	return nil
 }
 
-func (r *EnterpriseRepository) Update(enterpriseId string, enterprise domain.Enterprise) error {
+func (r *UserRepository) Update(userId string, user domain.Enterprise) error {
 
 	var err error
 
-	oid, _ := primitive.ObjectIDFromHex(enterpriseId)
+	oid, _ := primitive.ObjectIDFromHex(userId)
 
 	filter := bson.M{"_id": oid}
 
 	// todo: concluir
 	updated := bson.M{
 		"$set": bson.M{
-			"business_name": enterprise.BusinessName,
-			"CNAE":          enterprise.CNAE,
-			"fantasy_name":  enterprise.FantasyName,
-			"is_filial":     enterprise.IsFilial,
-			"updated_at":    time.Now(),
+			"full_name": 		user.FullName,
+			"email":         	user.Email,
+			"enterprise_id": 	user.EnterpriseId,
+			"updated_at":   	time.Now(),
 		},
 	}
 
@@ -119,12 +120,12 @@ func (r *EnterpriseRepository) Update(enterpriseId string, enterprise domain.Ent
 	return nil
 }
 
-func (r *EnterpriseRepository) Delete(enterpriseId string) error {
+func (r *UserRepository) Delete(userId string) error {
 
 	var err error
 	var oid primitive.ObjectID
 
-	oid, err = primitive.ObjectIDFromHex(enterpriseId)
+	oid, err = primitive.ObjectIDFromHex(userId)
 
 	if err != nil {
 		return err

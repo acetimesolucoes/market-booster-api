@@ -4,27 +4,27 @@ import (
 	"net/http"
 	"strconv"
 
-	enterpriseUseCase "marketbooster/application/use_cases/enterprise_use_cases"
+	userUseCase "marketbooster/application/use_cases/user_use_cases"
 	"marketbooster/domain"
 	http_exception "marketbooster/framework/exception"
 	"github.com/gin-gonic/gin"
 )
 
-type EnterpriseController struct {
+type UserController struct {
 }
 
 // @BasePath /api/v1
 
-// FindAllEnterprises godoc
-// @Summary 			Enterprises
+// FindAllUsers godoc
+// @Summary 			Users
 // @Schemes
-// @Description 		Find All Enterprises
-// @Tags 				enterprise
+// @Description 		Find All Users
+// @Tags 				user
 // @Accept 				json
 // @Produce 			json
 // @Param 				page query int false "Current page to paginate"
-// @Router /enterprises [get]
-func (e EnterpriseController) FindAll(c *gin.Context) {
+// @Router /users [get]
+func (e *UserController) FindAll(c *gin.Context) {
 
 	page, pageErr := strconv.ParseInt(c.Query("page"), 0, 64)
 	limit, limitErr := strconv.ParseInt(c.Query("limit"), 0, 64)
@@ -37,11 +37,11 @@ func (e EnterpriseController) FindAll(c *gin.Context) {
 		limit = 25
 	}
 
-	enterprises, err := enterpriseUseCase.FindAll(page, limit)
+	users, err := userUseCase.FindAll(page, limit)
 
-	result := new(http_exception.HttpSuccess[domain.Enterprises])
+	result := new(http_exception.HttpSuccess[domain.Users])
 
-	result.Data = enterprises
+	result.Data = users
 	result.Page = page
 	result.Limit = limit
 
@@ -53,21 +53,21 @@ func (e EnterpriseController) FindAll(c *gin.Context) {
 
 }
 
-// FindEnterpriseById godoc
-// @Summary Enterprise by id
+// FindUserById godoc
+// @Summary User by id
 // @Schemes
-// @Description Find All Enterprises
+// @Description Find All Users
 // @Tags enterprise
 // @Accept json
 // @Produce json
-// @Param id path string true "Enterprise ID"
+// @Param id path string true "User ID"
 // @Success 200 {string} Helloworld
-// @Router /enterprises/{id} [get]
-func (e EnterpriseController) FindById(c *gin.Context) {
+// @Router /users/{id} [get]
+func (e *UserController) FindById(c *gin.Context) {
 
 	enterpriseId := c.Params.ByName("id")
 
-	var enterprise domain.Enterprise
+	var enterprise domain.User
 
 	enterprise, err := enterpriseUseCase.FindOneById(enterpriseId)
 
@@ -78,19 +78,19 @@ func (e EnterpriseController) FindById(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, enterprise)
 }
 
-// CreateEnterprise godoc
-// @Summary					Create Enterprise
+// CreateUser godoc
+// @Summary					Create User
 // @Schemes
-// @Description 			Create Enterprise
+// @Description 			Create User
 // @Tags enterprise
 // @Accept 					json
 // @Produce 				json
 // @Success 				200 {string} Helloworld
-// @Router 					/enterprises [post]
-func (e EnterpriseController) Create(c *gin.Context) {
+// @Router 					/users [post]
+func (e *UserController) Create(c *gin.Context) {
 
 	var err error
-	var enterprise domain.Enterprise
+	var enterprise domain.User
 
 	err = c.BindJSON(&enterprise)
 
@@ -108,20 +108,20 @@ func (e EnterpriseController) Create(c *gin.Context) {
 
 }
 
-// UpdateEnterprise godoc
-// @Summary 				Update Enterprise
+// UpdateUser godoc
+// @Summary 				Update User
 // @Schemes
-// @Description 			Update Enterprise
+// @Description 			Update User
 // @Tags enterprise
 // @Accept 					json
 // @Produce 				json
-// @Param					id path string true "EnterpriseID"
+// @Param					id path string true "UserID"
 // @Success 				200 {string} Helloworld
-// @Router 					/enterprises/{id} [put]
-func (e EnterpriseController) Update(c *gin.Context) {
+// @Router 					/users/{id} [put]
+func (e *UserController) Update(c *gin.Context) {
 
 	var enterpriseId string
-	var enterprise domain.Enterprise
+	var enterprise domain.User
 	var err error
 
 	enterpriseId = c.Params.ByName("id")
@@ -137,17 +137,17 @@ func (e EnterpriseController) Update(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, nil)
 }
 
-// DeleteEnterprise godoc
-// @Summary 				Delete Enterprise
+// DeleteUser godoc
+// @Summary 				Delete User
 // @Schemes
-// @Description 			Delete Enterprise
+// @Description 			Delete User
 // @Tags enterprise
 // @Accept 					json
 // @Produce 				json
-// @Param					id path string true "EnterpriseID"
+// @Param					id path string true "UserID"
 // @Success 				200 {string} Helloworld
-// @Router 					/enterprises/{id} [delete]
-func (e EnterpriseController) Delete(c *gin.Context) {
+// @Router 					/users/{id} [delete]
+func (e *UserController) Delete(c *gin.Context) {
 
 	var enterpriseId string
 	var err error

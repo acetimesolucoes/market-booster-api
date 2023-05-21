@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	userUseCase "marketbooster/application/use_cases/user_use_cases"
+	"marketbooster/application/use_cases"
 	"marketbooster/domain"
 	http_exception "marketbooster/framework/exception"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,7 +38,7 @@ func (e *UserController) FindAll(c *gin.Context) {
 		limit = 25
 	}
 
-	users, err := userUseCase.FindAll(page, limit)
+	users, err := new(use_cases.UserUseCase).FindAll(page, limit)
 
 	result := new(http_exception.HttpSuccess[domain.Users])
 
@@ -57,7 +58,7 @@ func (e *UserController) FindAll(c *gin.Context) {
 // @Summary User by id
 // @Schemes
 // @Description Find All Users
-// @Tags enterprise
+// @Tags user
 // @Accept json
 // @Produce json
 // @Param id path string true "User ID"
@@ -65,24 +66,24 @@ func (e *UserController) FindAll(c *gin.Context) {
 // @Router /users/{id} [get]
 func (e *UserController) FindById(c *gin.Context) {
 
-	enterpriseId := c.Params.ByName("id")
+	userId := c.Params.ByName("id")
 
-	var enterprise domain.User
+	var user domain.User
 
-	enterprise, err := enterpriseUseCase.FindOneById(enterpriseId)
+	user, err := new(use_cases.UserUseCase).FindOneById(userId)
 
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
 	}
 
-	c.IndentedJSON(http.StatusOK, enterprise)
+	c.IndentedJSON(http.StatusOK, user)
 }
 
 // CreateUser godoc
 // @Summary					Create User
 // @Schemes
 // @Description 			Create User
-// @Tags enterprise
+// @Tags user
 // @Accept 					json
 // @Produce 				json
 // @Success 				200 {string} Helloworld
@@ -90,15 +91,15 @@ func (e *UserController) FindById(c *gin.Context) {
 func (e *UserController) Create(c *gin.Context) {
 
 	var err error
-	var enterprise domain.User
+	var user domain.User
 
-	err = c.BindJSON(&enterprise)
+	err = c.BindJSON(&user)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
 
-	err = enterpriseUseCase.Create(enterprise)
+	err = new(use_cases.UserUseCase).Create(user)
 
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
@@ -112,7 +113,7 @@ func (e *UserController) Create(c *gin.Context) {
 // @Summary 				Update User
 // @Schemes
 // @Description 			Update User
-// @Tags enterprise
+// @Tags user
 // @Accept 					json
 // @Produce 				json
 // @Param					id path string true "UserID"
@@ -120,15 +121,15 @@ func (e *UserController) Create(c *gin.Context) {
 // @Router 					/users/{id} [put]
 func (e *UserController) Update(c *gin.Context) {
 
-	var enterpriseId string
-	var enterprise domain.User
+	var userId string
+	var user domain.User
 	var err error
 
-	enterpriseId = c.Params.ByName("id")
+	userId = c.Params.ByName("id")
 
-	c.BindJSON(&enterprise)
+	c.BindJSON(&user)
 
-	err = enterpriseUseCase.Update(enterpriseId, enterprise)
+	err = new(use_cases.UserUseCase).Update(userId, user)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
@@ -141,7 +142,7 @@ func (e *UserController) Update(c *gin.Context) {
 // @Summary 				Delete User
 // @Schemes
 // @Description 			Delete User
-// @Tags enterprise
+// @Tags user
 // @Accept 					json
 // @Produce 				json
 // @Param					id path string true "UserID"
@@ -149,12 +150,12 @@ func (e *UserController) Update(c *gin.Context) {
 // @Router 					/users/{id} [delete]
 func (e *UserController) Delete(c *gin.Context) {
 
-	var enterpriseId string
+	var userId string
 	var err error
 
-	enterpriseId = c.Params.ByName("id")
+	userId = c.Params.ByName("id")
 
-	err = enterpriseUseCase.Delete(enterpriseId)
+	err = new(use_cases.UserUseCase).Delete(userId)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)

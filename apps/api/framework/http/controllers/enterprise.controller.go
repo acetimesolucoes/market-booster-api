@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	enterpriseUseCase "marketbooster/application/use_cases/enterprise_use_cases"
+	"marketbooster/application/use_cases"
 	"marketbooster/domain"
 	http_exception "marketbooster/framework/exception"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,7 +38,7 @@ func (e EnterpriseController) FindAll(c *gin.Context) {
 		limit = 25
 	}
 
-	enterprises, err := enterpriseUseCase.FindAll(page, limit)
+	enterprises, err := new(use_cases.EnterpriseUseCase).FindAll(page, limit)
 
 	result := new(http_exception.HttpSuccess[domain.Enterprises])
 
@@ -69,7 +70,7 @@ func (e EnterpriseController) FindById(c *gin.Context) {
 
 	var enterprise domain.Enterprise
 
-	enterprise, err := enterpriseUseCase.FindOneById(enterpriseId)
+	enterprise, err := new(use_cases.EnterpriseUseCase).FindOneById(enterpriseId)
 
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
@@ -98,7 +99,7 @@ func (e EnterpriseController) Create(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
 
-	err = enterpriseUseCase.Create(enterprise)
+	err = new(use_cases.EnterpriseUseCase).Create(enterprise)
 
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
@@ -128,7 +129,7 @@ func (e EnterpriseController) Update(c *gin.Context) {
 
 	c.BindJSON(&enterprise)
 
-	err = enterpriseUseCase.Update(enterpriseId, enterprise)
+	err = new(use_cases.EnterpriseUseCase).Update(enterpriseId, enterprise)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
@@ -154,7 +155,7 @@ func (e EnterpriseController) Delete(c *gin.Context) {
 
 	enterpriseId = c.Params.ByName("id")
 
-	err = enterpriseUseCase.Delete(enterpriseId)
+	err = new(use_cases.EnterpriseUseCase).Delete(enterpriseId)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)

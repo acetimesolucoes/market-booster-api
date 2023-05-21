@@ -1,11 +1,11 @@
-package enterprise_use_cases_test
+package use_cases
 
 import (
 	"testing"
 	"time"
 
-	enterpriseUseCase "marketbooster/application/use_cases"
 	"marketbooster/domain"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -31,7 +31,7 @@ func TestCreate(t *testing.T) {
 		Employeers:         []domain.Employeer{},
 	}
 
-	err := enterpriseUseCase.Create(enterprise)
+	err := new(EnterpriseUseCase).Create(enterprise)
 
 	if err != nil {
 		t.Error("Teste de persistencia de dados da empresa falhou!")
@@ -43,7 +43,7 @@ func TestCreate(t *testing.T) {
 
 func TestFindById(t *testing.T) {
 
-	_, err := enterpriseUseCase.FindOneById(enterpriseId)
+	_, err := new(EnterpriseUseCase).FindOneById(enterpriseId)
 
 	if err != nil {
 		t.Error("Teste de busca por id retornou erro")
@@ -55,7 +55,7 @@ func TestFindById(t *testing.T) {
 
 func TestFindAll(t *testing.T) {
 
-	enterprises, err := enterpriseUseCase.FindAll(1, 25)
+	enterprises, err := new(EnterpriseUseCase).FindAll(1, 25)
 
 	if err != nil {
 		t.Error("Teste de busca de empresas falhou!")
@@ -78,7 +78,7 @@ func TestUpdate(t *testing.T) {
 		UpdatedAt:    time.Now(),
 	}
 
-	err := enterpriseUseCase.Update(enterpriseId, enterprise)
+	err := new(EnterpriseUseCase).Update(enterpriseId, enterprise)
 
 	if err != nil {
 		t.Error("Erro ao atualizar empresa")
@@ -90,7 +90,7 @@ func TestUpdate(t *testing.T) {
 
 func TestDelete(t *testing.T) {
 
-	err := enterpriseUseCase.Delete(enterpriseId)
+	err := new(EnterpriseUseCase).Delete(enterpriseId)
 
 	if err != nil {
 		t.Error("Erro ao deletar empresa")

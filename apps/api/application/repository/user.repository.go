@@ -2,22 +2,27 @@ package repository
 
 import (
 	"context"
-	"time"
 	"fmt"
+	"time"
 
 	"marketbooster/domain"
 	"marketbooster/framework/utils"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type UserRepository struct {
-
+	collection *mongo.Collection
+	ctx        context.Context
 }
 
-var collection = utils.GetCollection("users")
-var ctx = context.Background()
+func (r *UserRepository) init() {
+	r.collection = utils.GetCollection("users")
+	r.ctx = context.Background()
+}
 
 func (r *UserRepository) FindAll(page int64, limit int64) (domain.Users, error) {
 
@@ -31,43 +36,43 @@ func (r *UserRepository) FindAll(page int64, limit int64) (domain.Users, error) 
 	calc := (page-1)*limit + 1
 	opts.Skip = &calc
 
-	cursor, err := collection.Find(ctx, filter, opts)
+	cursor, err := r.collection.Find(r.ctx, filter, opts)
 
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 
-	for cursor.Next(ctx) {
+	for cursor.Next(r.ctx) {
 
-		var user domain.Enterprise
+		var user domain.User
 		err = cursor.Decode(&user)
 
 		if err != nil {
 			return nil, err
 		}
 
-		users = append(users, &user)
+		users = append(users, user)
 	}
 
 	return users, nil
 }
 
-func (r *UserRepository) FindOneById(userId string) (domain.Enterprise, error) {
+func (r *UserRepository) FindOneById(userId string) (domain.User, error) {
 
 	var err error
 
 	oid, err := primitive.ObjectIDFromHex(userId)
 
 	if err != nil {
-		return domain.Enterprise{}, err
+		return domain.User{}, err
 	}
 
 	filter := bson.M{"_id": oid}
 
-	result := collection.FindOne(ctx, filter)
+	result := r.collection.FindOne(r.ctx, filter)
 
-	var user domain.Enterprise
+	var user domain.User
 	err = result.Decode(&user)
 
 	if err != nil {
@@ -78,13 +83,13 @@ func (r *UserRepository) FindOneById(userId string) (domain.Enterprise, error) {
 
 }
 
-func (r *UserRepository) Save(user domain.Enterprise) error {
+func (r *UserRepository) Save(user domain.User) error {
 
 	var err error
 
 	user.CreatedAt = time.Now()
 
-	_, err = collection.InsertOne(ctx, user)
+	_, err = r.collection.InsertOne(r.ctx, user)
 
 	if err != nil {
 		return err
@@ -93,7 +98,7 @@ func (r *UserRepository) Save(user domain.Enterprise) error {
 	return nil
 }
 
-func (r *UserRepository) Update(userId string, user domain.Enterprise) error {
+func (r *UserRepository) Update(userId string, user domain.User) error {
 
 	var err error
 
@@ -104,14 +109,14 @@ func (r *UserRepository) Update(userId string, user domain.Enterprise) error {
 	// todo: concluir
 	updated := bson.M{
 		"$set": bson.M{
-			"full_name": 		user.FullName,
-			"email":         	user.Email,
-			"enterprise_id": 	user.EnterpriseId,
-			"updated_at":   	time.Now(),
+			"full_name":     user.FullName,
+			"email":         user.Email,
+			"enterprise_id": user.EnterpriseId,
+			"updated_at":    time.Now(),
 		},
 	}
 
-	_, err = collection.UpdateOne(ctx, filter, updated)
+	_, err = r.collection.UpdateOne(r.ctx, filter, updated)
 
 	if err != nil {
 		return err
@@ -133,7 +138,7 @@ func (r *UserRepository) Delete(userId string) error {
 
 	filter := bson.M{"_id": oid}
 
-	_, err = collection.DeleteOne(ctx, filter)
+	_, err = r.collection.DeleteOne(r.ctx, filter)
 
 	if err != nil {
 		return err

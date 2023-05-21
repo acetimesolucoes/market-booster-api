@@ -1,13 +1,16 @@
-package user_use_cases
+package use_cases
 
 import (
-	userRepository "marketbooster/application/repository"
+	"marketbooster/application/repository"
 	"marketbooster/domain"
 )
 
-func FindAll(page int64, limit int64) (domain.Users, error) {
+type UserUseCase struct {
+}
 
-	users, err := userRepository.FindAll(page, limit)
+func (uc *UserUseCase) FindAll(page int64, limit int64) (domain.Users, error) {
+
+	users, err := new(repository.UserRepository).FindAll(page, limit)
 
 	if err != nil {
 		return nil, err
@@ -16,9 +19,9 @@ func FindAll(page int64, limit int64) (domain.Users, error) {
 	return users, nil
 }
 
-func FindOneById(userId string) (domain.Users, error) {
+func (uc *UserUseCase) FindOneById(userId string) (domain.User, error) {
 
-	user, err := userRepository.FindOneById(userId)
+	user, err := new(repository.UserRepository).FindOneById(userId)
 
 	if err != nil {
 		return user, err
@@ -27,20 +30,9 @@ func FindOneById(userId string) (domain.Users, error) {
 	return user, nil
 }
 
-func Create(user domain.Users) error {
+func (uc *UserUseCase) Create(user domain.User) error {
 
-	err := userRepository.Save(user)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func Update(userId string, user domain.Users) error {
-
-	err := userRepository.Update(userId, user)
+	err := new(repository.UserRepository).Save(user)
 
 	if err != nil {
 		return err
@@ -49,9 +41,20 @@ func Update(userId string, user domain.Users) error {
 	return nil
 }
 
-func Delete(userId string) error {
+func (uc *UserUseCase) Update(userId string, user domain.User) error {
 
-	err := userRepository.Delete(userId)
+	err := new(repository.UserRepository).Update(userId, user)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (uc *UserUseCase) Delete(userId string) error {
+
+	err := new(repository.UserRepository).Delete(userId)
 
 	if err != nil {
 		return err

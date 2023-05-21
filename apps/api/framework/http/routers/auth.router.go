@@ -1,7 +1,9 @@
 package routers
 
 import (
-	"marketbooster/framework/http/controllers"
+	"marketbooster/platform/authenticator/logout"
+	"marketbooster/platform/authenticator/user"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,10 +13,8 @@ func (auth *AuthenticationRouter) CreateRouter(rg *gin.RouterGroup) {
 
 	r := rg.Group("oauth")
 	{
-		controller := new(controllers.EnterpriseController)
-
-		r.GET("/login", login.Handler(auth))
-		r.GET("/callback", callback.Handler(auth))
+		// r.GET("/login", login.Handler(auth))
+		// r.GET("/callback", callback.Handler(auth))
 		r.GET("/user", user.Handler)
 		r.GET("/logout", logout.Handler)
 	}

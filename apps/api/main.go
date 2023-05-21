@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 	"net/http"
+	"os"
 
 	"marketbooster/docs"
 	"marketbooster/framework/http/routers"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
@@ -36,10 +37,10 @@ func main() {
 	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	router.GET("/ping", func(c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{
-      "message": "pong",
-    })
-  })
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
 
 	// @BasePath /api/v1
 	v1 := router.Group("/api/v1")
@@ -51,6 +52,8 @@ func main() {
 	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	
+
+	fmt.Printf("Server is listner in port %s", port)
+
 	router.Run(":" + port)
 }

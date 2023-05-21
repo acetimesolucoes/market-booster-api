@@ -2,20 +2,27 @@ package repository
 
 import (
 	"context"
-	"time"
 	"fmt"
+	"time"
 
 	"marketbooster/domain"
 	"marketbooster/framework/utils"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type EnterpriseRepository struct {}
+type EnterpriseRepository struct {
+	collection *mongo.Collection
+	ctx        context.Context
+}
 
-var collection = utils.GetCollection("enterprises")
-var ctx = context.Background()
+func (r *EnterpriseRepository) init() {
+	r.collection = utils.GetCollection("enterprises")
+	r.ctx = context.Background()
+}
 
 func (r *EnterpriseRepository) FindAll(page int64, limit int64) (domain.Enterprises, error) {
 
@@ -29,14 +36,14 @@ func (r *EnterpriseRepository) FindAll(page int64, limit int64) (domain.Enterpri
 	calc := (page-1)*limit + 1
 	opts.Skip = &calc
 
-	cursor, err := collection.Find(ctx, filter, opts)
+	cursor, err := r.collection.Find(r.ctx, filter, opts)
 
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 
-	for cursor.Next(ctx) {
+	for cursor.Next(r.ctx) {
 
 		var enterprise domain.Enterprise
 		err = cursor.Decode(&enterprise)
@@ -63,7 +70,7 @@ func (r *EnterpriseRepository) FindOneById(enterpriseId string) (domain.Enterpri
 
 	filter := bson.M{"_id": oid}
 
-	result := collection.FindOne(ctx, filter)
+	result := r.collection.FindOne(r.ctx, filter)
 
 	var enterprise domain.Enterprise
 	err = result.Decode(&enterprise)
@@ -82,7 +89,7 @@ func (r *EnterpriseRepository) Save(enterprise domain.Enterprise) error {
 
 	enterprise.CreatedAt = time.Now()
 
-	_, err = collection.InsertOne(ctx, enterprise)
+	_, err = r.collection.InsertOne(r.ctx, enterprise)
 
 	if err != nil {
 		return err
@@ -110,7 +117,7 @@ func (r *EnterpriseRepository) Update(enterpriseId string, enterprise domain.Ent
 		},
 	}
 
-	_, err = collection.UpdateOne(ctx, filter, updated)
+	_, err = r.collection.UpdateOne(r.ctx, filter, updated)
 
 	if err != nil {
 		return err
@@ -132,7 +139,7 @@ func (r *EnterpriseRepository) Delete(enterpriseId string) error {
 
 	filter := bson.M{"_id": oid}
 
-	_, err = collection.DeleteOne(ctx, filter)
+	_, err = r.collection.DeleteOne(r.ctx, filter)
 
 	if err != nil {
 		return err

@@ -1,13 +1,15 @@
-package enterprise_use_cases
+package use_cases
 
 import (
-	enterpriseRepository "marketbooster/application/repository"
+	"marketbooster/application/repository"
 	"marketbooster/domain"
 )
 
-func FindAll(page int64, limit int64) (domain.Enterprises, error) {
+type EnterpriseUseCase struct{}
 
-	enterprises, err := enterpriseRepository.FindAll(page, limit)
+func (uc *EnterpriseUseCase) FindAll(page int64, limit int64) (domain.Enterprises, error) {
+
+	enterprises, err := new(repository.EnterpriseRepository).FindAll(page, limit)
 
 	if err != nil {
 		return nil, err
@@ -16,9 +18,9 @@ func FindAll(page int64, limit int64) (domain.Enterprises, error) {
 	return enterprises, nil
 }
 
-func FindOneById(enterpriseId string) (domain.Enterprise, error) {
+func (uc *EnterpriseUseCase) FindOneById(enterpriseId string) (domain.Enterprise, error) {
 
-	enterprise, err := enterpriseRepository.FindOneById(enterpriseId)
+	enterprise, err := new(repository.EnterpriseRepository).FindOneById(enterpriseId)
 
 	if err != nil {
 		return enterprise, err
@@ -27,20 +29,9 @@ func FindOneById(enterpriseId string) (domain.Enterprise, error) {
 	return enterprise, nil
 }
 
-func Create(enterprise domain.Enterprise) error {
+func (uc *EnterpriseUseCase) Create(enterprise domain.Enterprise) error {
 
-	err := enterpriseRepository.Save(enterprise)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func Update(enterpriseId string, enterprise domain.Enterprise) error {
-
-	err := enterpriseRepository.Update(enterpriseId, enterprise)
+	err := new(repository.EnterpriseRepository).Save(enterprise)
 
 	if err != nil {
 		return err
@@ -49,9 +40,20 @@ func Update(enterpriseId string, enterprise domain.Enterprise) error {
 	return nil
 }
 
-func Delete(enterpriseId string) error {
+func (uc *EnterpriseUseCase) Update(enterpriseId string, enterprise domain.Enterprise) error {
 
-	err := enterpriseRepository.Delete(enterpriseId)
+	err := new(repository.EnterpriseRepository).Update(enterpriseId, enterprise)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (uc *EnterpriseUseCase) Delete(enterpriseId string) error {
+
+	err := new(repository.EnterpriseRepository).Delete(enterpriseId)
 
 	if err != nil {
 		return err

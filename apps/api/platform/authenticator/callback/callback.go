@@ -6,7 +6,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 
-	"01-Login/platform/authenticator"
+	"marketbooster/platform/authenticator"
 )
 
 // Handler for our callback.

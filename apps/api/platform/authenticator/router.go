@@ -1,23 +1,22 @@
-package router
+package authenticator
 
 import (
 	"encoding/gob"
+	"marketbooster/platform/authenticator/callback"
+	"marketbooster/platform/authenticator/login"
+	"marketbooster/platform/authenticator/logout"
+	"marketbooster/platform/authenticator/user"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-
-	"marketbooster/platform/authenticator"
-	"marketbooster/platform/middleware"
-	"marketbooster/web/app/callback"
-	"marketbooster/web/app/login"
-	"marketbooster/web/app/logout"
-	"marketbooster/web/app/user"
 )
 
+type AuthRouter struct{}
+
 // New registers the routes and returns the router.
-func New(auth *authenticator.Authenticator) *gin.Engine {
+func (r *AuthRouter) New(auth *Authenticator) *gin.Engine {
 	router := gin.Default()
 
 	// To store custom types in our cookies,

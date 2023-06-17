@@ -2,22 +2,32 @@ package repository
 
 import (
 	"context"
-	"time"
 	"fmt"
+	"time"
 
 	"github.com/acetimesolutions/marketbooster/domain"
 	"github.com/acetimesolutions/marketbooster/framework/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var collection = utils.GetCollection("enterprises")
-var ctx = context.Background()
+type EnterpriseMongoRepository struct {
+	Collection *mongo.Collection
+	Context    context.Context
+}
 
-func FindAll(page int64, limit int64) (domain.Enterprises, error) {
+func NewEnterpriseMongoRepository() *EnterpriseMongoRepository {
+	return &EnterpriseMongoRepository{
+		Collection: utils.GetCollection("enterprises"),
+		Context:    context.Background(),
+	}
+}
 
-	var enterprises domain.Enterprises
+func (r *EnterpriseMongoRepository) FindAll(page int64, limit int64) ([]*domain.Enterprise, error) {
+
+	var enterprises []*domain.Enterprise
 
 	var err error
 	filter := bson.D{}
@@ -27,14 +37,14 @@ func FindAll(page int64, limit int64) (domain.Enterprises, error) {
 	calc := (page-1)*limit + 1
 	opts.Skip = &calc
 
-	cursor, err := collection.Find(ctx, filter, opts)
+	cursor, err := r.Collection.Find(r.Context, filter, opts)
 
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 
-	for cursor.Next(ctx) {
+	for cursor.Next(r.Context) {
 
 		var enterprise domain.Enterprise
 		err = cursor.Decode(&enterprise)
@@ -49,7 +59,7 @@ func FindAll(page int64, limit int64) (domain.Enterprises, error) {
 	return enterprises, nil
 }
 
-func FindOneById(enterpriseId string) (domain.Enterprise, error) {
+func (r *EnterpriseMongoRepository) FindOneById(enterpriseId string) (domain.Enterprise, error) {
 
 	var err error
 
@@ -61,7 +71,7 @@ func FindOneById(enterpriseId string) (domain.Enterprise, error) {
 
 	filter := bson.M{"_id": oid}
 
-	result := collection.FindOne(ctx, filter)
+	result := r.Collection.FindOne(r.Context, filter)
 
 	var enterprise domain.Enterprise
 	err = result.Decode(&enterprise)
@@ -74,13 +84,13 @@ func FindOneById(enterpriseId string) (domain.Enterprise, error) {
 
 }
 
-func Save(enterprise domain.Enterprise) error {
+func (r *EnterpriseMongoRepository) Save(enterprise domain.Enterprise) error {
 
 	var err error
 
 	enterprise.CreatedAt = time.Now()
 
-	_, err = collection.InsertOne(ctx, enterprise)
+	_, err = r.Collection.InsertOne(r.Context, enterprise)
 
 	if err != nil {
 		return err
@@ -89,7 +99,7 @@ func Save(enterprise domain.Enterprise) error {
 	return nil
 }
 
-func Update(enterpriseId string, enterprise domain.Enterprise) error {
+func (r *EnterpriseMongoRepository) Update(enterpriseId string, enterprise domain.Enterprise) error {
 
 	var err error
 
@@ -108,7 +118,7 @@ func Update(enterpriseId string, enterprise domain.Enterprise) error {
 		},
 	}
 
-	_, err = collection.UpdateOne(ctx, filter, updated)
+	_, err = r.Collection.UpdateOne(r.Context, filter, updated)
 
 	if err != nil {
 		return err
@@ -117,7 +127,7 @@ func Update(enterpriseId string, enterprise domain.Enterprise) error {
 	return nil
 }
 
-func Delete(enterpriseId string) error {
+func (r *EnterpriseMongoRepository) Delete(enterpriseId string) error {
 
 	var err error
 	var oid primitive.ObjectID
@@ -130,7 +140,7 @@ func Delete(enterpriseId string) error {
 
 	filter := bson.M{"_id": oid}
 
-	_, err = collection.DeleteOne(ctx, filter)
+	_, err = r.Collection.DeleteOne(r.Context, filter)
 
 	if err != nil {
 		return err

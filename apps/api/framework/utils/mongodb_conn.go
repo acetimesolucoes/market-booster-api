@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"time"
-	// "os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -23,7 +22,7 @@ import (
 var (
 	usr  = "root"
 	pwd  = "acetimesolucoes"
-	host = "mongo"
+	host = "127.0.0.1"
 	port = "27017"
 	db   = "actm-business-crm"
 )
@@ -48,6 +47,7 @@ func GetCollection(collection string) *mongo.Collection {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	err = client.Connect(ctx)
 	err = client.Ping(context.TODO(), nil)
+	defer client.Disconnect(ctx)
 
 	fmt.Println(err)
 

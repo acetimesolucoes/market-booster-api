@@ -4,13 +4,14 @@ import (
 	"net/http"
 	"strconv"
 
-	enterpriseUseCase "github.com/acetimesolutions/marketbooster/application/use_cases"
+	"github.com/acetimesolutions/marketbooster/application/usecases"
 	"github.com/acetimesolutions/marketbooster/domain"
 	http_exception "github.com/acetimesolutions/marketbooster/framework/exception"
 	"github.com/gin-gonic/gin"
 )
 
 type EnterpriseController struct {
+	UseCase *usecases.UseCase[domain.Enterprise]
 }
 
 // @BasePath /api/v1
@@ -24,7 +25,7 @@ type EnterpriseController struct {
 // @Produce 			json
 // @Param 				page query int false "Current page to paginate"
 // @Router /enterprises [get]
-func (e EnterpriseController) FindAll(c *gin.Context) {
+func (e *EnterpriseController) FindAll(c *gin.Context) {
 
 	page, pageErr := strconv.ParseInt(c.Query("page"), 0, 64)
 	limit, limitErr := strconv.ParseInt(c.Query("limit"), 0, 64)
@@ -37,9 +38,9 @@ func (e EnterpriseController) FindAll(c *gin.Context) {
 		limit = 25
 	}
 
-	enterprises, err := enterpriseUseCase.FindAll(page, limit)
+	enterprises, err := e.UseCase.FindAll(page, limit)
 
-	result := new(http_exception.HttpSuccess[domain.Enterprises])
+	result := new(http_exception.HttpSuccess[[]*domain.Enterprise])
 
 	result.Data = enterprises
 	result.Page = page
@@ -63,13 +64,13 @@ func (e EnterpriseController) FindAll(c *gin.Context) {
 // @Param id path string true "Enterprise ID"
 // @Success 200 {string} Helloworld
 // @Router /enterprises/{id} [get]
-func (e EnterpriseController) FindById(c *gin.Context) {
+func (e *EnterpriseController) FindById(c *gin.Context) {
 
 	enterpriseId := c.Params.ByName("id")
 
 	var enterprise domain.Enterprise
 
-	enterprise, err := enterpriseUseCase.FindOneById(enterpriseId)
+	enterprise, err := e.UseCase.FindOneById(enterpriseId)
 
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
@@ -87,7 +88,7 @@ func (e EnterpriseController) FindById(c *gin.Context) {
 // @Produce 				json
 // @Success 				200 {string} Helloworld
 // @Router 					/enterprises [post]
-func (e EnterpriseController) Create(c *gin.Context) {
+func (e *EnterpriseController) Create(c *gin.Context) {
 
 	var err error
 	var enterprise domain.Enterprise
@@ -98,7 +99,7 @@ func (e EnterpriseController) Create(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
 
-	err = enterpriseUseCase.Create(enterprise)
+	err = e.UseCase.Create(enterprise)
 
 	if err != nil {
 		c.Status(http.StatusInternalServerError)
@@ -118,7 +119,7 @@ func (e EnterpriseController) Create(c *gin.Context) {
 // @Param					id path string true "EnterpriseID"
 // @Success 				200 {string} Helloworld
 // @Router 					/enterprises/{id} [put]
-func (e EnterpriseController) Update(c *gin.Context) {
+func (e *EnterpriseController) Update(c *gin.Context) {
 
 	var enterpriseId string
 	var enterprise domain.Enterprise
@@ -128,7 +129,7 @@ func (e EnterpriseController) Update(c *gin.Context) {
 
 	c.BindJSON(&enterprise)
 
-	err = enterpriseUseCase.Update(enterpriseId, enterprise)
+	err = e.UseCase.Update(enterpriseId, enterprise)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
@@ -147,14 +148,14 @@ func (e EnterpriseController) Update(c *gin.Context) {
 // @Param					id path string true "EnterpriseID"
 // @Success 				200 {string} Helloworld
 // @Router 					/enterprises/{id} [delete]
-func (e EnterpriseController) Delete(c *gin.Context) {
+func (e *EnterpriseController) Delete(c *gin.Context) {
 
 	var enterpriseId string
 	var err error
 
 	enterpriseId = c.Params.ByName("id")
 
-	err = enterpriseUseCase.Delete(enterpriseId)
+	err = e.UseCase.Delete(enterpriseId)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)

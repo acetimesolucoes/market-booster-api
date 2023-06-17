@@ -1,10 +1,11 @@
-package enterprise_use_cases_test
+package usecases_test
 
 import (
 	"testing"
 	"time"
 
-	enterpriseUseCase "github.com/acetimesolutions/marketbooster/application/use_cases"
+	"github.com/acetimesolutions/marketbooster/application/repository"
+	"github.com/acetimesolutions/marketbooster/application/usecases"
 	"github.com/acetimesolutions/marketbooster/domain"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -12,6 +13,9 @@ import (
 var enterpriseId string
 
 func TestCreate(t *testing.T) {
+
+	enterpriseMongoRepository := repository.NewEnterpriseMongoRepository()
+	enterpriseUseCase := usecases.NewEnterpriseUsecase(enterpriseMongoRepository)
 
 	oid := primitive.NewObjectID()
 	enterpriseId = oid.Hex()
@@ -43,6 +47,9 @@ func TestCreate(t *testing.T) {
 
 func TestFindById(t *testing.T) {
 
+	enterpriseMongoRepository := repository.NewEnterpriseMongoRepository()
+	enterpriseUseCase := usecases.NewEnterpriseUsecase(enterpriseMongoRepository)
+
 	_, err := enterpriseUseCase.FindOneById(enterpriseId)
 
 	if err != nil {
@@ -54,6 +61,9 @@ func TestFindById(t *testing.T) {
 }
 
 func TestFindAll(t *testing.T) {
+
+	enterpriseMongoRepository := repository.NewEnterpriseMongoRepository()
+	enterpriseUseCase := usecases.NewEnterpriseUsecase(enterpriseMongoRepository)
 
 	enterprises, err := enterpriseUseCase.FindAll(1, 25)
 
@@ -72,6 +82,9 @@ func TestFindAll(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 
+	enterpriseMongoRepository := repository.NewEnterpriseMongoRepository()
+	enterpriseUseCase := usecases.NewEnterpriseUsecase(enterpriseMongoRepository)
+
 	enterprise := domain.Enterprise{
 		BusinessName: "",
 		CNAE:         []string{},
@@ -89,6 +102,9 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
+
+	enterpriseMongoRepository := repository.NewEnterpriseMongoRepository()
+	enterpriseUseCase := usecases.NewEnterpriseUsecase(enterpriseMongoRepository)
 
 	err := enterpriseUseCase.Delete(enterpriseId)
 

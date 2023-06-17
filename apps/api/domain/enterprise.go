@@ -23,4 +23,14 @@ type Enterprise struct {
 	UpdatedAt          time.Time          `bson:"updated_at" json:"updated_at"`
 }
 
-type Enterprises []*Enterprise
+func NewEnterprise(business_name string, cnae []string, fantasy_name string) *Enterprise {
+	return &Enterprise{
+		ID:           primitive.NewObjectID(),
+		BusinessName: business_name,
+		CNAE:         cnae,
+		CreatedAt:    time.Now(),
+		FantasyName:  fantasy_name,
+	}
+}
+
+// type Enterprises []*Enterprise
